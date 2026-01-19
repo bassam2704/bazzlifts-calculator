@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- ✅ MUST for mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>BAZZLIFTS – Transform Yourself</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: #ffffff;
+      margin: 0;
+      /* ✅ Don’t hide overflow on mobile */
+      overflow-x: hidden;
+    }
+
+    button {
+      padding: 14px 22px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #22c55e;
+      color: #000;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    /* PAGES COMMON */
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .slide-left {
+      transform: translateX(-40px);
+    }
+
+    .slide-right {
+      transform: translateX(40px);
+    }
+
+    .active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+.disclaimer {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+  max-width: 720px;
+  margin: 16px auto 0;
+  line-height: 1.5;
+}
+    /* WELCOME PAGE */
+    .welcome {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .brand {
+      font-size: 42px;
+      font-weight: 900;
+      color: #22c55e;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      word-break: break-word;
+    }
+
+    .message {
+      font-size: 20px;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #e5e7eb;
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 30px;
+      max-width: 520px;
+    }
+
+    /* CALCULATOR PAGE */
+    .card {
+      background: #0f172a;
+      padding: 28px;
+      border-radius: 16px;
+
+      /* ✅ Responsive width */
+      width: min(92vw, 420px);
+
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+
+      /* ✅ Mobile-friendly scroll if content grows */
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 10px 0 15px;
+    }
+
+    label {
+      font-size: 14px;
+      margin-top: 10px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .results {
+      margin-top: 18px;
+      background: #020617;
+      padding: 14px;
+      border-radius: 12px;
+    }
+
+    .title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #38bdf8;
+    }
+
+    .line {
+      margin: 6px 0;
+    }
+
+    .note {
+      font-size: 12px;
+      text-align: center;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: #22c55e;
+      margin-bottom: 10px;
+      padding: 0;
+      font-size: 14px;
+      width: auto;
+      max-width: none;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+      margin: 12px 0;
+    }
+
+    /* ✅ Small Screen Tweaks */
+    @media (max-width: 480px) {
+      .brand {
+        font-size: 34px;
+      }
+
+      .message {
+        font-size: 16px;
+        margin-bottom: 22px;
+      }
+
+      .sub {
+        font-size: 13px;
+        margin-bottom: 22px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 14px;
+      }
+
+      button {
+        font-size: 15px;
+        padding: 12px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- WELCOME PAGE -->
+<div id="welcomePage" class="page welcome active">
+  <div>
+    <div class="brand">BAZZLIFTS</div>
+
+    <div class="message">
+      You don’t need motivation.<br>
+      You need a <b>decision</b>.<br><br>
+      The body you want is built by the choices you make today.
+    </div>
+
+    <div class="sub">
+      If you’re tired of starting over, stop quitting.
+    </div>
+
+    <button onclick="showCalculator()">I need to change</button>
+  </div>
+</div>
+
+<!-- CALCULATOR PAGE -->
+<div id="calculatorPage" class="page hidden slide-right">
+  <div class="card">
+    <button class="back-btn" onclick="goBack()">← Back to Home</button>
+
+    <h2>Calories & Macros</h2>
+
+    <label>Gender</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label>Age</label>
+    <input type="number" id="age">
+
+    <label>Height (cm)</label>
+    <input type="number" id="height">
+
+    <label>Weight (kg)</label>
+    <input type="number" id="weight">
+
+    <label>Activity Level</label>
+    <select id="activity">
+      <option value="1.2">Sedentary – Desk job, no exercise</option>
+      <option value="1.375">Light – 1–3 workouts/week</option>
+      <option value="1.55">Moderate – 3–5 workouts/week</option>
+      <option value="1.725">Very Active – 6–7 intense workouts</option>
+      <option value="1.9">Athlete – Physical job or 2× training/day</option>
+    </select>
+
+    <button style="margin-top:15px; width:100%; max-width:none;" onclick="calculate()">Calculate</button>
+
+    <div class="results" id="output" style="display:none;"></div>
+
+    <div class="note">
+      Powered by <b>BAZZLIFTS</b>
+    </div>
+  </div>
+</div>
+
+<script>
+function showCalculator() {
+  const welcome = document.getElementById("welcomePage");
+  const calc = document.getElementById("calculatorPage");
+
+  welcome.classList.remove("active");
+  welcome.classList.add("slide-left");
+
+  setTimeout(() => {
+    welcome.classList.add("hidden");
+    calc.classList.remove("hidden", "slide-right");
+    calc.classList.add("active");
+  }, 300);
+}
+
+function goBack() {
+  const welcome = document.getElementById("welcomePage");
+  const calc = document.getElementById("calculatorPage");
+
+  calc.classList.remove("active");
+  calc.classList.add("slide-right");
+
+  setTimeout(() => {
+    calc.classList.add("hidden");
+    welcome.classList.remove("hidden", "slide-left");
+    welcome.classList.add("active");
+  }, 300);
+}
+
+function calculate() {
+  const gender = document.getElementById("gender").value;
+  const age = +document.getElementById("age").value;
+  const height = +document.getElementById("height").value;
+  const weight = +document.getElementById("weight").value;
+  const activity = +document.getElementById("activity").value;
+
+  if (!age || !height || !weight) {
+    alert("Fill all fields");
+    return;
+  }
+
+  let bmr = gender === "male"
+    ? 10 * weight + 6.25 * height - 5 * age + 5
+    : 10 * weight + 6.25 * height - 5 * age - 161;
+
+  const maintenance = Math.round(bmr * activity);
+  const fatLoss = maintenance - 500;
+  const leanBulk = maintenance + 300;
+
+  function macros(calories, proteinFactor) {
+    const protein = Math.round(weight * proteinFactor);
+    const fat = Math.round((calories * 0.25) / 9);
+    const carbs = Math.round((calories - (protein * 4 + fat * 9)) / 4);
+    const fibre = Math.round((calories / 1000) * 14);
+    return { protein, carbs, fat, fibre };
+  }
+
+  const main = macros(maintenance, 2.0);
+  const cut = macros(fatLoss, 2.2);
+  const bulk = macros(leanBulk, 2.0);
+
+  document.getElementById("output").innerHTML = `
+    <div class="title">🔵 Maintenance (${maintenance} kcal)</div>
+    <div class="line">Protein: ${main.protein} g</div>
+    <div class="line">Carbs: ${main.carbs} g</div>
+    <div class="line">Fat: ${main.fat} g</div>
+    <div class="line">Fibre: ${main.fibre} g</div>
+
+    <hr>
+
+    <div class="title">🔴 Fat Loss (${fatLoss} kcal)</div>
+    <div class="line">Protein: ${cut.protein} g</div>
+    <div class="line">Carbs: ${cut.carbs} g</div>
+    <div class="line">Fat: ${cut.fat} g</div>
+    <div class="line">Fibre: ${cut.fibre} g</div>
+
+    <hr>
+
+    <div class="title">🟢 Lean Bulk (${leanBulk} kcal)</div>
+    <div class="line">Protein: ${bulk.protein} g</div>
+    <div class="line">Carbs: ${bulk.carbs} g</div>
+    <div class="line">Fat: ${bulk.fat} g</div>
+    <div class="line">Fibre: ${bulk.fibre} g</div>
+    <div class="disclaimer">
+  <strong>Disclaimer:</strong><br>
+  This calculator provides estimated calorie and macro values for educational purposes only.
+  Results may vary based on individual metabolism, health conditions, and lifestyle.
+  This tool is not intended to replace professional medical, nutritional, or fitness advice.
+  Always consult a qualified healthcare or nutrition professional before making major dietary or training changes.
+</div>
+  `;
+
+  document.getElementById("output").style.display = "block";
+}
+</script>
+
+</body>
+</html>
